@@ -1,6 +1,6 @@
 # editorconfig-checker
 
-![Logo](https://raw.githubusercontent.com/editorconfig-checker/editorconfig-checker.javascript/master/Docs/logo.png "Logo")
+![Logo](https://raw.githubusercontent.com/editorconfig-checker/editorconfig-checker.python/master/docs/logo.png "Logo")
 
 ## What?
 
@@ -8,7 +8,7 @@ This is a tool to check if your files consider your `.editorconfig`.
 Most tools - like linters for example - only test one filetype and need an extra configuration.
 This tool only needs your editorconfig to check all files.
 
-![Sample Output](https://raw.githubusercontent.com/editorconfig-checker/editorconfig-checker.javascript/master/Docs/sample.png "Sample output")
+![Sample Output](https://raw.githubusercontent.com/editorconfig-checker/editorconfig-checker.python/master/docs/sample-output.png "Sample output")
 
 ## Important
 
@@ -18,15 +18,14 @@ This version can be used in the same way as the core as every argument is simply
 
 ## Installation
 
-TODO
+```
+$ pip install .
+```
 
 ## Usage
 
-TODO
-
-Usage output:
-
 ```
+$ editorconfig-checker -help
 USAGE:
   -config string
         config
