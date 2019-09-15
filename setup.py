@@ -26,6 +26,7 @@ setup(
     maintainer_email='mmicu.github00@gmail.com',
     description='A tool to verify that your files are in harmony with your .editorconfig',
     long_description=readme,
+    long_description_content_type='text/markdown',
     classifiers=[
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
