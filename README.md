@@ -19,7 +19,8 @@ This version can be used in the same way as the core as every argument is simply
 ## Installation
 
 ```
-$ pip install .
+$ pip install .                     # from cloned repo
+$ pip install editorconfig-checker  # from PyPI
 ```
 
 ## Usage
@@ -57,6 +58,13 @@ USAGE:
         print debugging information
   -version
         print the version number
+```
+
+## Run tests
+
+The test script uses `docker`. After installing it, you can run the test with:
+```
+$ ./test.sh
 ```
 
 ## Support

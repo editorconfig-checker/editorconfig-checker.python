@@ -1,0 +1,11 @@
+FROM python:$IMAGE
+LABEL maintainer="Marco M. (mmicu) <mmicu.github00@gmail.com>"
+
+COPY . /app
+WORKDIR /app
+
+RUN set -x \
+    && pip install -r requirements.txt \
+    && pip install --no-cache-dir $PACKAGE
+
+CMD ["editorconfig-checker", "-version"]

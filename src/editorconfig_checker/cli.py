@@ -9,7 +9,7 @@ from tarfile import open as tar_open
 
 from requests import get
 
-from . import __version__
+from . import CORE_VERSION
 
 
 def get_execution_path():
@@ -81,7 +81,7 @@ def main(argc=len(argv), args=argv):
             tar_name = '{0}.tar.gz'.format(get_checker_name())
             tar_url = (
                 'https://github.com/editorconfig-checker/editorconfig-checker'
-                '/releases/download/{0}/{1}'.format(__version__, tar_name)
+                '/releases/download/{0}/{1}'.format(CORE_VERSION, tar_name)
             )
             target_path = path_join(get_execution_path(), tar_name)
 

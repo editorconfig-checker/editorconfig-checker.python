@@ -22,12 +22,15 @@ setup(
     license='MIT',
     author='Marco M.',
     author_email='mmicu.github00@gmail.com',
-    maintainer='Marco M.',
-    maintainer_email='mmicu.github00@gmail.com',
+    maintainer='Marco M., Max Strübing',
+    maintainer_email='mmicu.github00@gmail.com, mxstrbng@gmail.com',
     description='A tool to verify that your files are in harmony with your .editorconfig',
     long_description=readme,
     long_description_content_type='text/markdown',
     classifiers=[
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
@@ -38,7 +41,7 @@ setup(
     packages=find_packages('src'),
     package_dir={'': 'src'},
     include_package_data=True,
-    python_requires='>=3',
+    python_requires='>=2.7',
     install_requires=[
         'requests>=2.22'
     ],
