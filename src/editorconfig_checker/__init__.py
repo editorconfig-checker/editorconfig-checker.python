@@ -1,3 +1,3 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-__version__ = '2.0.4'
+__version__ = '2.1.0'
