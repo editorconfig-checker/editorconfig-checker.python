@@ -62,6 +62,20 @@ USAGE:
         print the version number
 ```
 
+## Usage with the pre-commit git hooks framework
+
+editorconfig-checker can be included as a hook for [pre-commit](https://pre-commit.com/). The easiest way to get started is to add this configuration to your `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+-   repo: https://github.com/editorconfig-checker/editorconfig-checker.python
+    rev: ''  # pick a git hash / tag to point to
+    hooks:
+    -   id: editorconfig-checker
+```
+
+See the [pre-commit docs](https://pre-commit.com/#pre-commit-configyaml---hooks) for how to customize this configuration.
+
 ## Run tests
 
 The test script uses `docker`. After installing it, you can run the test with:
