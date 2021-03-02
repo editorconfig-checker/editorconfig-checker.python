@@ -1,6 +1,8 @@
 .DS_Store
+_*.sh
 *.bak
 *.egg-info
+*.pyc
 TODO
 
 __pycache__/

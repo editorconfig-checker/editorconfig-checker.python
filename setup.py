@@ -1,16 +1,16 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import io
-import re
+from io import open as io_open
+from os import path as os_path
+from re import search as re_search
 
-from setuptools import find_packages
 from setuptools import setup
 
-with io.open('README.md', 'rt', encoding='utf8') as fp:
+with io_open('README.md', 'rt', encoding='utf8') as fp:
     readme = fp.read()
 
-with io.open('src/editorconfig_checker/__init__.py', 'rt', encoding='utf8') as fp:
-    version = re.search(r'__version__ = \'(.*?)\'', fp.read()).group(1)
+with io_open(os_path.join('editorconfig_checker', '__init__.py'), 'rt', encoding='utf8') as fp:
+    version = re_search(r'__version__ = \'(.*?)\'', fp.read()).group(1)
 
 setup(
     name='editorconfig-checker',
@@ -40,8 +40,7 @@ setup(
         'Topic :: Text Processing',
         'Topic :: Utilities'
     ],
-    packages=find_packages('src'),
-    package_dir={'': 'src'},
+    packages=['editorconfig_checker'],
     include_package_data=True,
     python_requires='>=2.7',
     install_requires=[
@@ -49,12 +48,13 @@ setup(
     ],
     extras_require={
         'dev': [
+            'flake8',
             'pycodestyle'
         ]
     },
     entry_points={
         'console_scripts': [
-            'editorconfig-checker = editorconfig_checker.cli:main'
+            'editorconfig-checker = editorconfig_checker.__main__:main'
         ]
     }
 )

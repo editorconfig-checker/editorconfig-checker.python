@@ -1,13 +1,13 @@
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "    help                : Print this help message."
-	@echo "    check_coding_style  : Run pycodestyle."
+	@echo "    - help         : Print this help message."
+	@echo "    - coding_style : Run coding style tools."
 
 .PHONY: all
 all: help
 
-.PHONY: check_coding_style
-check_coding_style:
-	@echo "Running pycodestyle..."
-	@pycodestyle --show-source src
+.PHONY: coding_style
+coding_style:
+	@pycodestyle --ignore E501 .
+	@flake8 --ignore E501 .
