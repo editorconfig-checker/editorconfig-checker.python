@@ -7,5 +7,5 @@ bash test.sh
 
 # Build & publish
 rm -rf dist
-python3 setp.py sdist bdist_wheel
-twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+python3 setup.py sdist bdist_wheel
+twine upload dist/*
