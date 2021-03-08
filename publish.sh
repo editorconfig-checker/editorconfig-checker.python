@@ -5,7 +5,9 @@ set -e
 # Run tests
 bash test.sh
 
-# Build & publish
-rm -rf dist
+# Remove generated files
+make clean
+
+# Build & publish (currently, we push the package under the username `mmicu_00`)
 python3 setup.py sdist bdist_wheel
 twine upload dist/*
