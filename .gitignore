@@ -4,11 +4,11 @@ _*.txt
 *.bak
 *.egg-info
 *.pyc
-TODO
 
 __pycache__/
 bin/
 build/
 dist/
 examples/
+misc/
 venv/
