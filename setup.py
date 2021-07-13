@@ -41,15 +41,14 @@ setup(
         'Topic :: Utilities'
     ],
     packages=['editorconfig_checker'],
+    package_data={
+        'editorconfig_checker': ['lib/*.tar.gz']
+    },
     include_package_data=True,
     python_requires='>=2.7',
-    install_requires=[
-        'requests>=2.22'
-    ],
     extras_require={
         'dev': [
-            'flake8',
-            'pycodestyle'
+            'flake8'
         ]
     },
     entry_points={

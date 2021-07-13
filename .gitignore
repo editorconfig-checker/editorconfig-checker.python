@@ -6,6 +6,7 @@ _*.txt
 *.pyc
 
 __pycache__/
+.vscode/
 bin/
 build/
 dist/

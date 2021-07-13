@@ -14,5 +14,4 @@ clean:
 
 .PHONY: coding_style
 coding_style:
-	@pycodestyle --ignore E501 .
-	@flake8 --ignore E501 .
+	@flake8
