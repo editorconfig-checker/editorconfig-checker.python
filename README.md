@@ -32,4 +32,19 @@ repos:
         alias: ec
 ```
 
+The above hook is a python wrapper that automatically downloads and installs
+[editorconfig-checker](https://editorconfig-checker.github.io/) binary.
+If you manage your tools in some other way, for example, via [ASDF](https://asdf-vm.com/),
+you may want to use an alternative pre-commit hook that assumes that
+`ec` binary executable is already available on the system path:
+
+```yaml
+repos:
+-   repo: https://github.com/editorconfig-checker/editorconfig-checker.python
+    rev: ''  # pick a git hash / tag to point to
+    hooks:
+    -   id: editorconfig-checker-system
+        alias: ec
+```
+
 See the [pre-commit docs](https://pre-commit.com/#pre-commit-configyaml---hooks) to check how to customize this configuration.
