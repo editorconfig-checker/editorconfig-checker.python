@@ -2,10 +2,8 @@
 
 set -e
 
-# Run tests
-bash test.sh
-
-# Remove generated files
+# Run tests & cleanup
+make test
 make clean
 
 # Build & publish (currently, we push the package under the username `mmicu_00`)

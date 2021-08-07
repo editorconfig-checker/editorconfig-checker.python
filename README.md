@@ -12,8 +12,11 @@ $ pip install editorconfig-checker  # from PyPI
 
 
 ## Usage
-After installation, the `editorconfig-checker` binary should be available in your environment
-(or `editorconfig-checker.exe` on Windows).
+After installation, the `ec` binary should be available in your environment (or `ec.exe` on Windows):
+
+```
+$ ec -version
+```
 
 
 ## Usage with the pre-commit git hooks framework
