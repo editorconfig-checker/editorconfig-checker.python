@@ -7,5 +7,5 @@ make test
 make clean
 
 # Build & publish (currently, we push the package under the username `mmicu_00`)
-python3 setup.py sdist bdist_wheel
+python3 setup.py sdist
 twine upload dist/*
