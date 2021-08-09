@@ -29,6 +29,7 @@ repos:
     rev: ''  # pick a git hash / tag to point to
     hooks:
     -   id: editorconfig-checker
+        alias: ec
 ```
 
 See the [pre-commit docs](https://pre-commit.com/#pre-commit-configyaml---hooks) to check how to customize this configuration.
