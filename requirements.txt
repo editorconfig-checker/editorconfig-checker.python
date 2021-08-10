@@ -1,3 +1,0 @@
-flake8==3.9.1
-pycodestyle==2.6.0
-requests==2.25.1

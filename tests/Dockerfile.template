@@ -7,5 +7,5 @@ WORKDIR /app
 RUN set -x                                 \
     && apt-get update                      \
     && apt-get install -y make             \
-    && pip install -r requirements.txt     \
+    && pip install -r dev_requirements.txt \
     && pip install --no-cache-dir $PACKAGE
