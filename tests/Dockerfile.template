@@ -4,8 +4,10 @@ LABEL maintainer="Marco M. (mmicu) <mmicu.github00@gmail.com>"
 COPY . /app
 WORKDIR /app
 
-RUN set -x                                 \
-    && apt-get update                      \
-    && apt-get install -y make             \
-    && pip install -r dev_requirements.txt \
+RUN bash
+
+RUN set -x                                   \
+    && apt-get update                        \
+    && apt-get install -y make               \
+    && pip install -r tests/requirements.txt \
     && pip install --no-cache-dir $PACKAGE

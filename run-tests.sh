@@ -3,12 +3,16 @@
 set -e
 
 PY_DOCKER_IMAGES=("2.7.16-slim" "3.7.4-slim")
-
-# "."                    -> Local package
-# "editorconfig-checker" -> PyPI package
-PACKAGES=("." "editorconfig-checker")
-
 DOCKERFILE_TEMPLATE="tests/Dockerfile.template"
+
+PACKAGES=()
+
+# Local package
+PACKAGES+=(".")
+# PyPI package
+PACKAGES+=("editorconfig-checker")
+
+echo -e "Running tests...\n\n"
 
 for py_docker_image in "${PY_DOCKER_IMAGES[@]}"; do
     for package in "${PACKAGES[@]}"; do
@@ -40,12 +44,15 @@ for py_docker_image in "${PY_DOCKER_IMAGES[@]}"; do
 
         # Run coding style tools
         if [[ "$is_local" == "1" ]]; then
-            docker run --rm "$docker_image" make coding_style
+            docker run --rm "$docker_image" make coding-style
         fi
 
-        # Remove the created image
-        docker image rm "$docker_image" > /dev/null
+        # Run `editorconfig-checker`
+        docker run --rm "$docker_image" ec -version
 
-        echo ""
+        # Remove the created image
+        docker image rm "$docker_image" &> /dev/null
+
+        echo -e "\n"
     done
 done
