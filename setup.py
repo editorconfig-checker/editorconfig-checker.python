@@ -17,7 +17,7 @@ from io import BytesIO
 from distutils.command.build import build as orig_build
 from distutils.core import Command
 from os import chmod, makedirs, path, stat
-from platform import architecture, system
+from platform import architecture, machine, system
 from setuptools import setup
 from setuptools.command.install import install as orig_install
 from stat import S_IXUSR, S_IXGRP, S_IXOTH
@@ -31,27 +31,39 @@ except ImportError:
     from urllib2 import urlopen
 
 
-WRAPPER_VERSION = '2.3.54'
-EDITORCONFIG_CHECKER_CORE_VERSION = '2.3.5'
+WRAPPER_VERSION = '2.4.0'
+EDITORCONFIG_CHECKER_CORE_VERSION = '2.4.0'
 EDITORCONFIG_CHECKER_EXE_NAME = 'ec'
 
 
 def get_tarball_url():
     def get_ec_name_by_system():
-        if isinstance(architecture(), tuple) and len(architecture()) > 0:
-            arch = architecture()[0]
+        # Platform              architecture()      system()    machine()
+        # ---------------------------------------------------------------
+        # Linux x86 64bit       ('64bit', 'ELF')    'Linux'     'x86_64'
+        # Linux AWS Graviton2   ('64bit', 'ELF')    'Linux'     'aarch64'
+        # Mac x86 64bit         ('64bit', '')       'Darwin'    'x86_64'
+        # Mac M1 64bit          ('64bit', '')       'Darwin'    'arm64'
+        _system = system()
+        _machine = machine()
+        if _machine == 'x86_64':
+            _architecture = 'amd64'
+        elif _machine == 'aarch64' or _machine == 'arm64':
+            _architecture = 'arm64'
+        elif isinstance(architecture(), tuple) and len(architecture()) > 0:
+            _architecture = 'amd64' if architecture()[0] == '64bit' else '386'
         else:
-            raise ValueError('Cannot obtain architecture')
+            raise ValueError('Cannot determine architecture')
 
         return 'ec-{}-{}{}'.format(
-            system().lower(),
-            'amd64' if arch == '64bit' else '386',
-            '.exe' if system() == 'Windows' else ''
+            _system.lower(),
+            _architecture,
+            '.exe' if _system == 'Windows' else ''
         )
 
-    return 'https://github.com/editorconfig-checker/editorconfig-checker/releases/download/{}/{}'.format(
+    return 'https://github.com/editorconfig-checker/editorconfig-checker/releases/download/{}/{}.tar.gz'.format(
         EDITORCONFIG_CHECKER_CORE_VERSION,
-        '{}.tar.gz'.format(get_ec_name_by_system())
+        get_ec_name_by_system(),
     )
 
 
