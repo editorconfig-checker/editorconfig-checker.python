@@ -1,4 +1,5 @@
 # editorconfig-checker.python
+
 <p align="center">
     <a href="https://pypi.org/project/editorconfig-checker/"><img src="https://img.shields.io/pypi/v/editorconfig-checker.svg?style=flat&logo=pypi" alt="PyPI Latest Release"></a>
     <a href="https://pepy.tech/project/editorconfig-checker"><img src="https://pepy.tech/badge/editorconfig-checker" alt="Downloads"> </a>
@@ -9,23 +10,27 @@ A Python wrapper to provide a pip-installable [editorconfig-checker](https://git
 
 Internally, this package provides a convenient way to download the pre-built `editorconfig-checker` binary for your particular platform.
 
-
 ## Installation
-```
-$ pip install .                     # from source code
-$ pip install editorconfig-checker  # from PyPI
-```
 
+- From source code:
+  ```
+  pip install .
+  ```
+- From `PyPI`:
+  ```
+  pip install editorconfig-checker
+  ```
 
 ## Usage
+
 After installation, the `ec` binary should be available in your environment (or `ec.exe` on Windows):
 
 ```
-$ ec -version
+ec -version
 ```
 
-
 ## Usage with the pre-commit git hooks framework
+
 `editorconfig-checker` can be included as a hook for [pre-commit](https://pre-commit.com/).
 The easiest way to get started is to add this configuration to your `.pre-commit-config.yaml`:
 
