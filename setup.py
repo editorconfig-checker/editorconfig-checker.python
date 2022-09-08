@@ -31,8 +31,8 @@ except ImportError:
     from urllib2 import urlopen
 
 
-WRAPPER_VERSION = '2.4.0'
-EDITORCONFIG_CHECKER_CORE_VERSION = '2.4.0'
+WRAPPER_VERSION = '2.6.0'
+EDITORCONFIG_CHECKER_CORE_VERSION = '2.6.0'
 EDITORCONFIG_CHECKER_EXE_NAME = 'ec'
 
 
@@ -55,10 +55,9 @@ def get_tarball_url():
         else:
             raise ValueError('Cannot determine architecture')
 
-        return 'ec-{}-{}{}'.format(
+        return 'ec-{}-{}'.format(
             _system.lower(),
             _architecture,
-            '.exe' if _system == 'Windows' else ''
         )
 
     return 'https://github.com/editorconfig-checker/editorconfig-checker/releases/download/{}/{}.tar.gz'.format(
@@ -94,8 +93,6 @@ def extract_tarball(url, data):
 
 def save_executables(data, base_dir):
     exe = EDITORCONFIG_CHECKER_EXE_NAME
-    if system() == 'Windows':
-        exe += '.exe'
 
     output_path = path.join(base_dir, exe)
     makedirs(base_dir)
