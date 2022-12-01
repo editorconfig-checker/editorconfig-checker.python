@@ -93,6 +93,8 @@ def extract_tarball(url, data):
 
 def save_executables(data, base_dir):
     exe = EDITORCONFIG_CHECKER_EXE_NAME
+    if system() == 'Windows':
+        exe += '.exe'
 
     output_path = path.join(base_dir, exe)
     makedirs(base_dir)
