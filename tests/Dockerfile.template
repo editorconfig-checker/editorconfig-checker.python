@@ -9,5 +9,6 @@ WORKDIR /app
 RUN set -x                                   \
     && apt-get update                        \
     && apt-get install -y make               \
+    && python -m pip install --upgrade pip   \
     && pip install -r tests/requirements.txt \
     && pip install --no-cache-dir $PACKAGE
