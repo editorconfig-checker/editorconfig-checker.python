@@ -7,7 +7,7 @@ DOCKERFILE_TEMPLATE="tests/Dockerfile.template"
 
 PACKAGES=()
 
-# Local package
+# Install packages from sources
 PACKAGES+=(".")
 # PyPI package
 PACKAGES+=("editorconfig-checker")
@@ -35,7 +35,7 @@ for py_docker_image in "${PY_DOCKER_IMAGES[@]}"; do
         sed -i "s/\$IMAGE/$py_docker_image/g" "$dockerfile"
         sed -i "s/\$PACKAGE/$package/g"       "$dockerfile"
 
-        echo "Running docker file in $dockerfile"
+        echo "Building docker image based on \"$dockerfile\". It could take some time..."
 
         # Build & run
         docker_image="editorconfig-checker-$py_docker_image-$package_pp:latest"
