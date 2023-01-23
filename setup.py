@@ -31,7 +31,7 @@ except ImportError:
     from urllib2 import urlopen
 
 
-WRAPPER_VERSION = '2.7.0'
+WRAPPER_VERSION = '2.7.1'
 EDITORCONFIG_CHECKER_CORE_VERSION = '2.7.0'
 EDITORCONFIG_CHECKER_EXE_NAME = 'ec'
 
@@ -55,9 +55,14 @@ def get_tarball_url():
         else:
             raise ValueError('Cannot determine architecture')
 
-        return 'ec-{}-{}'.format(
+        # The core, from `2.7.0`, introduces the extension in the tarball name
+        # (e.g. `ec-windows-386.exe.tar.gz`, `ec-windows-arm.exe.tar.gz`)
+        _ext = '.exe' if _system == 'Windows' else ''
+
+        return 'ec-{}-{}{}'.format(
             _system.lower(),
             _architecture,
+            _ext,
         )
 
     return 'https://github.com/editorconfig-checker/editorconfig-checker/releases/download/{}/{}.tar.gz'.format(
