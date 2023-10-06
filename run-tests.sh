@@ -2,57 +2,64 @@
 
 set -e
 
-PY_DOCKER_IMAGES=("2.7.16-slim" "3.7.4-slim")
 DOCKERFILE_TEMPLATE="tests/Dockerfile.template"
 
-PACKAGES=()
+PY_DOCKER_IMAGES=()
+PY_DOCKER_IMAGES+=("2.7.16-slim")
+PY_DOCKER_IMAGES+=("3.7.4-slim")
+PY_DOCKER_IMAGES+=("3.8-slim")
+PY_DOCKER_IMAGES+=("3.9-slim")
+PY_DOCKER_IMAGES+=("3.10-slim")
+PY_DOCKER_IMAGES+=("3.11-slim")
 
-# Install packages from sources
-PACKAGES+=(".")
-# PyPI package
-PACKAGES+=("editorconfig-checker")
+create_docker_file() {
+    local package="$1"
 
-echo -e "Running tests...\n\n"
+    # Generate a valid Dockerfile from a template file
+    local dockerfile="tests/Dockerfile-$py_docker_image-$package"
+    cp "$DOCKERFILE_TEMPLATE" "$dockerfile"
 
-for py_docker_image in "${PY_DOCKER_IMAGES[@]}"; do
-    for package in "${PACKAGES[@]}"; do
-        is_local="0"
-        if [[ "$package" == "." ]]; then
-            package_pp="local"
-            is_local="1"
-        elif [[ "$package" == "editorconfig-checker" ]]; then
-            package_pp="pypi"
-        else
-            echo "Unknown package '$package'. Valid values are '.' and 'editorconfig-checker'."
-            exit 1
-        fi
+    # Replace docker image
+    sed -i "s/\$IMAGE/$py_docker_image/g" "$dockerfile"
 
-        echo "docker image: $py_docker_image ~ package: $package ($package_pp)"
+    # Replace package name
+    if [[ "$package" == "local" ]]; then
+        package="."
+    fi
+    sed -i "s/\$PACKAGE/$package/g" "$dockerfile"
 
-        # Generate a valid Dockerfile from a template file
-        dockerfile="tests/Dockerfile-$py_docker_image-$package_pp"
-        cp "$DOCKERFILE_TEMPLATE" "$dockerfile"
-        sed -i "s/\$IMAGE/$py_docker_image/g" "$dockerfile"
-        sed -i "s/\$PACKAGE/$package/g"       "$dockerfile"
+    echo "$dockerfile"
+}
 
-        echo "Building docker image based on \"$dockerfile\". It could take some time..."
+build_docker_image_and_run() {
+    local py_docker_image="$1"
+    local package="$2"
+    local dockerfile="$3"
 
-        # Build & run
-        docker_image="editorconfig-checker-$py_docker_image-$package_pp:latest"
-        docker build -t "$docker_image" -f "$dockerfile" --no-cache --quiet .
-        docker run --rm "$docker_image"
+    # Build
+    local docker_image="editorconfig-checker-$py_docker_image-$package:latest"
+    docker build -t "$docker_image" -f "$dockerfile" --no-cache --quiet .
 
-        # Run coding style tools
-        if [[ "$is_local" == "1" ]]; then
-            docker run --rm "$docker_image" make coding-style
-        fi
+    # Run `editorconfig-checker`
+    docker run --rm "$docker_image" ec -version
+}
 
-        # Run `editorconfig-checker`
-        docker run --rm "$docker_image" ec -version
+main() {
+    echo -e "Running tests...\n\n"
 
-        # Remove the created image
-        docker image rm "$docker_image" &> /dev/null
+    for py_docker_image in "${PY_DOCKER_IMAGES[@]}"; do
+        for package in local editorconfig-checker; do
+            local dockerfile=$(create_docker_file "$package")
+            echo "Dockerfile created at \"$dockerfile\" (\"$py_docker_image\" image and \"$package\" package)"
 
-        echo -e "\n"
+            echo "Building docker image. It could take some time..."
+            build_docker_image_and_run "$py_docker_image" "$package" "$dockerfile"
+
+            # docker image rm "$docker_image" &> /dev/null
+
+            echo -e "\n"
+        done
     done
-done
+}
+
+main
