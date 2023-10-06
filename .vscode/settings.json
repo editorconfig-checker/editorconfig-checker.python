@@ -2,6 +2,10 @@
     "cSpell.ignoreWords": [
         "aarch",
         "cmdclass",
-        "outfiles"
-    ]
+        "outfiles",
+        "pypi"
+    ],
+    "files.trimFinalNewlines": true,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true
 }
