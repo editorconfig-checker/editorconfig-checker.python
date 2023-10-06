@@ -13,15 +13,16 @@ the target machine and its content extracted in the proper output directory.
 Once the setup is complete, the `ec` executable should be available on your machine.
 """
 
-from io import BytesIO
 from distutils.command.build import build as orig_build
 from distutils.core import Command
+from io import BytesIO
 from os import chmod, makedirs, path, stat
 from platform import architecture, machine, system
+from stat import S_IXGRP, S_IXOTH, S_IXUSR
+from tarfile import open as tarfile_open
+
 from setuptools import setup
 from setuptools.command.install import install as orig_install
-from stat import S_IXUSR, S_IXGRP, S_IXOTH
-from tarfile import open as tarfile_open
 
 try:
     # Python 3
@@ -102,7 +103,12 @@ def save_executables(data, base_dir):
         exe += '.exe'
 
     output_path = path.join(base_dir, exe)
-    makedirs(base_dir)
+    try:
+        # Python 3
+        makedirs(base_dir, exists=True)
+    except TypeError:
+        # Python 2.7
+        makedirs(base_dir)
 
     with open(output_path, 'wb') as fp:
         fp.write(data)
