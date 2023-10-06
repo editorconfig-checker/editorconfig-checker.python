@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-This setup logic is highly ispired to the one used in `https://github.com/shellcheck-py/shellcheck-py`.
+This setup logic is highly inspired to the one used in `https://github.com/shellcheck-py/shellcheck-py`.
 
 After `https://github.com/editorconfig-checker/editorconfig-checker.python/issues/15` was opened,
 we decided to move the wrapper logic directly in the setup phase.
@@ -88,10 +88,10 @@ def download_tarball(url):
 def extract_tarball(url, data):
     with BytesIO(data) as bio:
         if '.tar.' in url:
-            with tarfile_open(fileobj=bio) as tarf:
-                for info in tarf.getmembers():
+            with tarfile_open(fileobj=bio) as fp:
+                for info in fp.getmembers():
                     if info.isfile() and info.name.startswith('bin/ec-'):
-                        return tarf.extractfile(info).read()
+                        return fp.extractfile(info).read()
 
     raise AssertionError('unreachable `extract` function')
 
