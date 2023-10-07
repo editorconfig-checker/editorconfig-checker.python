@@ -105,7 +105,7 @@ def save_executables(data, base_dir):
     output_path = path.join(base_dir, exe)
     try:
         # Python 3
-        makedirs(base_dir, exists=True)
+        makedirs(base_dir, exist_ok=True)
     except TypeError:
         # Python 2.7
         makedirs(base_dir)
