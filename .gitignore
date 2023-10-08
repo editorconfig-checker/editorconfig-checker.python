@@ -1,6 +1,7 @@
-.DS_Store
 _*.sh
 _*.txt
+.DS_Store
+.pre-commit-config.yaml
 *.bak
 *.egg-info
 *.pyc
@@ -11,4 +12,6 @@ bin/
 build/
 dist/
 examples/
+issues/
+misc/
 venv/
