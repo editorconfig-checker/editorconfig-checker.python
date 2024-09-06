@@ -41,7 +41,7 @@ build_docker_image_and_run() {
     docker build -t "$docker_image" -f "$dockerfile" --no-cache --quiet .
 
     # Run `editorconfig-checker`
-    docker run --rm "$docker_image" ec -version
+    docker run --rm "$docker_image" editorconfig-checker -version
 }
 
 main() {

@@ -10,7 +10,7 @@ we decided to move the wrapper logic directly in the setup phase.
 During setup, the tarball that contains the executable will be downloaded based on
 the target machine and its content extracted in the proper output directory.
 
-Once the setup is complete, the `ec` executable should be available on your machine.
+Once the setup is complete, the `editorconfig-checker` executable should be available on your machine.
 """
 
 from distutils.command.build import build as orig_build
@@ -34,7 +34,7 @@ except ImportError:
 
 WRAPPER_VERSION = '3.0.3'
 EDITORCONFIG_CHECKER_CORE_VERSION = 'v3.0.3'
-EDITORCONFIG_CHECKER_EXE_NAME = 'ec'
+EDITORCONFIG_CHECKER_EXE_NAME = 'editorconfig-checker'
 
 
 def get_tarball_url():
@@ -57,10 +57,10 @@ def get_tarball_url():
             raise ValueError('Cannot determine architecture')
 
         # The core, from `2.7.0`, introduces the extension in the tarball name
-        # (e.g. `ec-windows-386.exe.tar.gz`, `ec-windows-arm.exe.tar.gz`)
+        # (e.g. `editorconfig-checker-windows-386.exe.tar.gz`, `editorconfig-checker-windows-arm.exe.tar.gz`)
         _ext = '.exe' if _system == 'Windows' else ''
 
-        return 'ec-{}-{}{}'.format(
+        return 'editorconfig-checker-{}-{}{}'.format(
             _system.lower(),
             _architecture,
             _ext,
@@ -91,7 +91,7 @@ def extract_tarball(url, data):
         if '.tar.' in url:
             with tarfile_open(fileobj=bio) as fp:
                 for info in fp.getmembers():
-                    if info.isfile() and info.name.startswith('bin/ec-'):
+                    if info.isfile() and info.name.startswith('bin/editorconfig-checker-'):
                         return fp.extractfile(info).read()
 
     raise AssertionError('unreachable `extract` function')
