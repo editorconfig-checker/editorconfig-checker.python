@@ -27,7 +27,7 @@ publish: clean test
 .PHONY: quick-test
 quick-test: coding-style
 	docker build -t ec-quick-test .
-	docker run ec-quick-test ec -version
+	docker run ec-quick-test editorconfig-checker -version
 
 .PHONY: test
 test: coding-style

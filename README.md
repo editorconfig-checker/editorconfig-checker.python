@@ -23,10 +23,10 @@ Internally, this package provides a convenient way to download the pre-built `ed
 
 ## Usage
 
-After installation, the `ec` binary should be available in your environment (or `ec.exe` on Windows):
+After installation, the `editorconfig-checker` binary should be available in your environment (or `editorconfig-checker.exe` on Windows):
 
 ```
-ec -version
+editorconfig-checker -version
 ```
 
 ## Usage with the pre-commit git hooks framework
@@ -36,26 +36,26 @@ The easiest way to get started is to add this configuration to your `.pre-commit
 
 ```yaml
 repos:
--   repo: https://github.com/editorconfig-checker/editorconfig-checker.python
-    rev: ''  # pick a git hash / tag to point to
+  - repo: https://github.com/editorconfig-checker/editorconfig-checker.python
+    rev: "" # pick a git hash / tag to point to
     hooks:
-    -   id: editorconfig-checker
-        alias: ec
+      - id: editorconfig-checker
+        alias: editorconfig-checker
 ```
 
 The above hook is a python wrapper that automatically downloads and installs
 [editorconfig-checker](https://editorconfig-checker.github.io/) binary.
 If you manage your tools in some other way, for example, via [ASDF](https://asdf-vm.com/),
 you may want to use an alternative pre-commit hook that assumes that
-`ec` binary executable is already available on the system path:
+`editorconfig-checker` binary executable is already available on the system path:
 
 ```yaml
 repos:
--   repo: https://github.com/editorconfig-checker/editorconfig-checker.python
-    rev: ''  # pick a git hash / tag to point to
+  - repo: https://github.com/editorconfig-checker/editorconfig-checker.python
+    rev: "" # pick a git hash / tag to point to
     hooks:
-    -   id: editorconfig-checker-system
-        alias: ec
+      - id: editorconfig-checker-system
+        alias: editorconfig-checker
 ```
 
 See the [pre-commit docs](https://pre-commit.com/#pre-commit-configyaml---hooks) to check how to customize this configuration.

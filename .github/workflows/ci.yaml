@@ -29,7 +29,7 @@ jobs:
 
       - name: test that editorconfig-checker works by letting it output it's version
         run: |
-          ec --version
+          editorconfig-checker --version
 
   test-python-versions:
     runs-on: ubuntu-24.04
