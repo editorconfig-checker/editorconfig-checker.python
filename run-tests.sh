@@ -20,13 +20,13 @@ create_docker_file() {
     cp "$DOCKERFILE_TEMPLATE" "$dockerfile"
 
     # Replace docker image
-    sed -i "s/\$IMAGE/$py_docker_image/g" "$dockerfile"
+    sed -i '' "s/\$IMAGE/$py_docker_image/g" "$dockerfile"
 
     # Replace package name
     if [[ "$package" == "local" ]]; then
         package="."
     fi
-    sed -i "s/\$PACKAGE/$package/g" "$dockerfile"
+    sed -i '' "s/\$PACKAGE/$package/g" "$dockerfile"
 
     echo "$dockerfile"
 }
