@@ -58,12 +58,12 @@ def get_tarball_url():
 
         # The core, from `2.7.0`, introduces the extension in the tarball name
         # (e.g. `ec-windows-386.exe.tar.gz`, `ec-windows-arm.exe.tar.gz`)
-        _ext = '.exe' if _system == 'Windows' else ''
+        # In `3.1.0` the windows extension was then again dropped from the
+        # archive name.
 
-        return 'ec-{}-{}{}'.format(
+        return 'ec-{}-{}'.format(
             _system.lower(),
             _architecture,
-            _ext,
         )
 
     return 'https://github.com/editorconfig-checker/editorconfig-checker/releases/download/{}/{}.tar.gz'.format(
