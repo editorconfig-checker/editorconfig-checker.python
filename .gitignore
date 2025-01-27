@@ -8,6 +8,7 @@ _*.txt
 TODO
 
 __pycache__/
+.venv/
 bin/
 build/
 dist/
