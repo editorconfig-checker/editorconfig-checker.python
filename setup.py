@@ -32,7 +32,7 @@ except ImportError:
     from urllib2 import urlopen
 
 
-WRAPPER_VERSION = '3.1.2'
+WRAPPER_VERSION = '3.1.3'
 EDITORCONFIG_CHECKER_CORE_VERSION = 'v3.1.2'
 EDITORCONFIG_CHECKER_EXE_NAME = 'ec'
 
