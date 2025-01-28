@@ -6,13 +6,14 @@ help:
 	@echo "  - coding-style : Run coding style tools."
 	@echo "  - publish      : Publish package to PyPI."
 	@echo "  - test         : Run coding style tools and tests."
+	@echo "  - quicktest    : Run coding style tools and only the test for the latest python and the current git revision."
 
 .PHONY: all
 all: help
 
 .PHONY: clean
 clean:
-	@rm -rf build dist editorconfig_checker.egg-info editorconfig_checker/bin tests/Dockerfile-*
+	@rm -rf build dist editorconfig_checker.egg-info editorconfig_checker/bin
 
 .PHONY: coding-style
 coding-style:
@@ -26,3 +27,8 @@ publish: clean test
 .PHONY: test
 test: coding-style
 	@bash run-tests.sh
+
+.PHONY: quicktest
+quicktest: coding-style
+	docker build -t quicktest .
+	docker run quicktest ec -version
