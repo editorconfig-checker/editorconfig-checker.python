@@ -9,6 +9,8 @@ PY_DOCKER_IMAGES+=("3.8-slim")
 PY_DOCKER_IMAGES+=("3.9-slim")
 PY_DOCKER_IMAGES+=("3.10-slim")
 PY_DOCKER_IMAGES+=("3.11-slim")
+PY_DOCKER_IMAGES+=("3.12-slim")
+PY_DOCKER_IMAGES+=("3.13-slim")
 
 
 build_docker_image_and_run() {
