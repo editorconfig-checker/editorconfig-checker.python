@@ -12,6 +12,10 @@ PY_DOCKER_IMAGES+=("3.11-slim")
 PY_DOCKER_IMAGES+=("3.12-slim")
 PY_DOCKER_IMAGES+=("3.13-slim")
 
+PY_PACKAGES=()
+PY_PACKAGES+=("local")
+PY_PACKAGES+=("editorconfig-checker")
+
 
 build_docker_image_and_run() {
     local py_docker_image="$1"
@@ -42,7 +46,7 @@ main() {
     echo -e "Running tests...\n\n"
 
     for py_docker_image in "${PY_DOCKER_IMAGES[@]}"; do
-        for package in local editorconfig-checker; do
+        for package in "${PY_PACKAGES[@]}"; do
             echo "Building docker image with python version $py_docker_image and $package package. It could take some time..."
             build_docker_image_and_run "$py_docker_image" "$package"
 
