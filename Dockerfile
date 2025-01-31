@@ -4,7 +4,13 @@
 ARG IMAGE=3.13-slim
 
 
-FROM python:$IMAGE
+FROM python:$IMAGE AS pybase
+RUN apt-get update                         \
+    && apt-get install -y make             \
+    && python -m pip install --upgrade pip
+
+# separate the obtaining of the requirements from the actual test, so we can use build caching for the first step
+FROM pybase as tester
 LABEL maintainer="Marco M. (mmicu) <mmicu.github00@gmail.com>"
 
 COPY . /app
@@ -15,7 +21,4 @@ WORKDIR /app
 # - using a value of `editorconfig-checker` will instead pull the image from PyPI
 ARG PACKAGE=.
 
-RUN apt-get update                         \
-    && apt-get install -y make             \
-    && python -m pip install --upgrade pip \
-    && pip install --no-cache-dir $PACKAGE
+RUN pip install --no-cache-dir $PACKAGE

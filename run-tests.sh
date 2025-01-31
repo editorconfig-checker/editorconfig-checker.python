@@ -28,7 +28,7 @@ build_docker_image_and_run() {
     docker build \
         -t "$docker_image" \
         -f "Dockerfile" \
-        --no-cache \
+        --no-cache-filter tester \
         --quiet \
         --build-arg "IMAGE=$py_docker_image" \
         --build-arg "PACKAGE=$docker_package" \
