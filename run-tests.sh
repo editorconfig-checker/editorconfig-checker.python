@@ -4,16 +4,16 @@ set -e
 
 PY_DOCKER_IMAGES=()
 if [ -n "$TEST_PY_VERSION" ]; then
-	PY_DOCKER_IMAGES+=("$TEST_PY_VERSION")
+	PY_VERSIONS+=("$TEST_PY_VERSION")
 else
-	PY_DOCKER_IMAGES+=("2.7.16-slim")
-	PY_DOCKER_IMAGES+=("3.7.4-slim")
-	PY_DOCKER_IMAGES+=("3.8-slim")
-	PY_DOCKER_IMAGES+=("3.9-slim")
-	PY_DOCKER_IMAGES+=("3.10-slim")
-	PY_DOCKER_IMAGES+=("3.11-slim")
-	PY_DOCKER_IMAGES+=("3.12-slim")
-	PY_DOCKER_IMAGES+=("3.13-slim")
+	PY_VERSIONS+=("2.7.16")
+	PY_VERSIONS+=("3.7.4")
+	PY_VERSIONS+=("3.8")
+	PY_VERSIONS+=("3.9")
+	PY_VERSIONS+=("3.10")
+	PY_VERSIONS+=("3.11")
+	PY_VERSIONS+=("3.12")
+	PY_VERSIONS+=("3.13")
 fi
 
 PY_PACKAGES=()
@@ -53,10 +53,10 @@ build_docker_image_and_run() {
 main() {
     echo -e "Running tests...\n\n"
 
-    for py_docker_image in "${PY_DOCKER_IMAGES[@]}"; do
+    for py_version in "${PY_VERSIONS[@]}"; do
         for package in "${PY_PACKAGES[@]}"; do
-            echo "Building docker image with python version $py_docker_image and $package package. It could take some time..."
-            build_docker_image_and_run "$py_docker_image" "$package"
+            echo "Building docker image with python version $py_version and $package package. It could take some time..."
+            build_docker_image_and_run "$py_version-slim" "$package"
 
             # docker image rm "$docker_image" &> /dev/null
 
