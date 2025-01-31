@@ -3,18 +3,26 @@
 set -e
 
 PY_DOCKER_IMAGES=()
-PY_DOCKER_IMAGES+=("2.7.16-slim")
-PY_DOCKER_IMAGES+=("3.7.4-slim")
-PY_DOCKER_IMAGES+=("3.8-slim")
-PY_DOCKER_IMAGES+=("3.9-slim")
-PY_DOCKER_IMAGES+=("3.10-slim")
-PY_DOCKER_IMAGES+=("3.11-slim")
-PY_DOCKER_IMAGES+=("3.12-slim")
-PY_DOCKER_IMAGES+=("3.13-slim")
+if [ -n "$TEST_PY_VERSION" ]; then
+	PY_DOCKER_IMAGES+=("$TEST_PY_VERSION")
+else
+	PY_DOCKER_IMAGES+=("2.7.16-slim")
+	PY_DOCKER_IMAGES+=("3.7.4-slim")
+	PY_DOCKER_IMAGES+=("3.8-slim")
+	PY_DOCKER_IMAGES+=("3.9-slim")
+	PY_DOCKER_IMAGES+=("3.10-slim")
+	PY_DOCKER_IMAGES+=("3.11-slim")
+	PY_DOCKER_IMAGES+=("3.12-slim")
+	PY_DOCKER_IMAGES+=("3.13-slim")
+fi
 
 PY_PACKAGES=()
-PY_PACKAGES+=("local")
-PY_PACKAGES+=("editorconfig-checker")
+if [ -z "$TEST_LOCAL_PKG" ] || [ "$TEST_LOCAL_PKG" = "true" ]; then
+	PY_PACKAGES+=("local")
+fi
+if [ -z "$TEST_PYPI_PKG" ] || [ "$TEST_PYPI_PKG" = "true" ]; then
+	PY_PACKAGES+=("editorconfig-checker")
+fi
 
 
 build_docker_image_and_run() {
