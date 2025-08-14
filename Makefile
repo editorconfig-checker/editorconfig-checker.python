@@ -5,8 +5,8 @@ help:
 	@echo "  - clean        : Remove generated files."
 	@echo "  - coding-style : Run coding style tools."
 	@echo "  - publish      : Publish package to PyPI."
+	@echo "  - quick-test   : Run coding style tools and only the test for the latest python and the current git revision."
 	@echo "  - test         : Run coding style tools and tests."
-	@echo "  - quicktest    : Run coding style tools and only the test for the latest python and the current git revision."
 
 .PHONY: all
 all: help
@@ -24,11 +24,11 @@ publish: clean test
 	@python3 setup.py sdist
 	@twine upload dist/*
 
+.PHONY: quick-test
+quick-test: coding-style
+	docker build -t ec-quick-test .
+	docker run ec-quick-test ec -version
+
 .PHONY: test
 test: coding-style
 	@bash run-tests.sh
-
-.PHONY: quicktest
-quicktest: coding-style
-	docker build -t quicktest .
-	docker run quicktest ec -version

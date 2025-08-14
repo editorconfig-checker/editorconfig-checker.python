@@ -31,7 +31,6 @@ jobs:
         run: |
           ec --version
 
-
   test-python-versions:
     runs-on: ubuntu-24.04
     steps:
@@ -44,9 +43,14 @@ jobs:
       - name: run testsuite verifying against all python versions
         shell: bash
         run: |
-          # only test the local package, since we assume that we only
-          # upload to PyPI once we are certain that the local package is fine
+          # Only test the local package, since we assume that we only
+          # upload to PyPI once we are certain that the local package is fine.
           export TEST_LOCAL_PKG=true
           export TEST_PYPI_PKG=false
 
-          make test
+          # The same commands are defined in the `Makefile` and used for local development.
+          # We added them here to simplify the building process of the Docker
+          # image that points to `python:2.7-slim`.
+          # For such image, `apt-get` was not working as expected.
+          flake8 --ignore E501 setup.py
+          bash run-tests.sh

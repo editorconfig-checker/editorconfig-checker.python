@@ -2,34 +2,10 @@
 
 set -e
 
-PY_DOCKER_IMAGES=()
-if [ -n "$TEST_PY_VERSION" ]; then
-	PY_VERSIONS+=("$TEST_PY_VERSION")
-else
-	PY_VERSIONS+=("2.7")
-	PY_VERSIONS+=("3.7")
-	PY_VERSIONS+=("3.8")
-	PY_VERSIONS+=("3.9")
-	PY_VERSIONS+=("3.10")
-	PY_VERSIONS+=("3.11")
-	PY_VERSIONS+=("3.12")
-	PY_VERSIONS+=("3.13")
-fi
-
-PY_PACKAGES=()
-if [ -z "$TEST_LOCAL_PKG" ] || [ "$TEST_LOCAL_PKG" = "true" ]; then
-	PY_PACKAGES+=("local")
-fi
-if [ -z "$TEST_PYPI_PKG" ] || [ "$TEST_PYPI_PKG" = "true" ]; then
-	PY_PACKAGES+=("editorconfig-checker")
-fi
-
-
 build_docker_image_and_run() {
     local py_docker_image="$1"
     local package="$2"
 
-    # Build
     local docker_image="editorconfig-checker-$py_docker_image-$package:latest"
 
     docker_package="$package"
@@ -46,20 +22,38 @@ build_docker_image_and_run() {
         --build-arg "PACKAGE=$docker_package" \
         .
 
-    # Run `editorconfig-checker`
     docker run --rm "$docker_image" ec -version
 }
 
 main() {
     echo -e "Running tests...\n\n"
 
-    for py_version in "${PY_VERSIONS[@]}"; do
-        for package in "${PY_PACKAGES[@]}"; do
-            echo "Building docker image with python version $py_version and $package package. It could take some time..."
+    local py_versions=()
+    if [ -n "$TEST_PY_VERSION" ]; then
+        py_versions+=("$TEST_PY_VERSION")
+    else
+        py_versions+=("2.7")
+        py_versions+=("3.7")
+        py_versions+=("3.8")
+        py_versions+=("3.9")
+        py_versions+=("3.10")
+        py_versions+=("3.11")
+        py_versions+=("3.12")
+        py_versions+=("3.13")
+    fi
+
+    local py_packages=()
+    if [ -z "$TEST_LOCAL_PKG" ] || [ "$TEST_LOCAL_PKG" = "true" ]; then
+        py_packages+=("local")
+    fi
+    if [ -z "$TEST_PYPI_PKG" ] || [ "$TEST_PYPI_PKG" = "true" ]; then
+        py_packages+=("editorconfig-checker")
+    fi
+
+    for py_version in "${py_versions[@]}"; do
+        for package in "${py_packages[@]}"; do
+            echo "Building docker image with Python version $py_version and $package package. It could take some time..."
             build_docker_image_and_run "$py_version-slim" "$package"
-
-            # docker image rm "$docker_image" &> /dev/null
-
             echo -e "\n"
         done
     done

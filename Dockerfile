@@ -5,9 +5,7 @@ ARG IMAGE=3.13-slim
 
 
 FROM python:$IMAGE AS pybase
-RUN apt-get update                         \
-    && apt-get install -y make             \
-    && python -m pip install --upgrade pip
+RUN python -m pip install --upgrade pip
 
 # separate the obtaining of the requirements from the actual test, so we can use build caching for the first step
 FROM pybase as tester
