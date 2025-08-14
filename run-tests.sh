@@ -2,61 +2,58 @@
 
 set -e
 
-DOCKERFILE_TEMPLATE="tests/Dockerfile.template"
-
-PY_DOCKER_IMAGES=()
-PY_DOCKER_IMAGES+=("2.7.16-slim")
-PY_DOCKER_IMAGES+=("3.7.4-slim")
-PY_DOCKER_IMAGES+=("3.8-slim")
-PY_DOCKER_IMAGES+=("3.9-slim")
-PY_DOCKER_IMAGES+=("3.10-slim")
-PY_DOCKER_IMAGES+=("3.11-slim")
-
-create_docker_file() {
-    local package="$1"
-
-    # Generate a valid Dockerfile from a template file
-    local dockerfile="tests/Dockerfile-$py_docker_image-$package"
-    cp "$DOCKERFILE_TEMPLATE" "$dockerfile"
-
-    # Replace docker image
-    sed -i '' "s/\$IMAGE/$py_docker_image/g" "$dockerfile"
-
-    # Replace package name
-    if [[ "$package" == "local" ]]; then
-        package="."
-    fi
-    sed -i '' "s/\$PACKAGE/$package/g" "$dockerfile"
-
-    echo "$dockerfile"
-}
-
 build_docker_image_and_run() {
     local py_docker_image="$1"
     local package="$2"
-    local dockerfile="$3"
 
-    # Build
     local docker_image="editorconfig-checker-$py_docker_image-$package:latest"
-    docker build -t "$docker_image" -f "$dockerfile" --no-cache --quiet .
 
-    # Run `editorconfig-checker`
+    docker_package="$package"
+    if [[ "$package" == "local" ]]; then
+        docker_package="."
+    fi
+
+    docker build \
+        -t "$docker_image" \
+        -f "Dockerfile" \
+        --no-cache-filter tester \
+        --quiet \
+        --build-arg "IMAGE=$py_docker_image" \
+        --build-arg "PACKAGE=$docker_package" \
+        .
+
     docker run --rm "$docker_image" ec -version
 }
 
 main() {
     echo -e "Running tests...\n\n"
 
-    for py_docker_image in "${PY_DOCKER_IMAGES[@]}"; do
-        for package in local editorconfig-checker; do
-            local dockerfile=$(create_docker_file "$package")
-            echo "Dockerfile created at \"$dockerfile\" (\"$py_docker_image\" image and \"$package\" package)"
+    local py_versions=()
+    if [ -n "$TEST_PY_VERSION" ]; then
+        py_versions+=("$TEST_PY_VERSION")
+    else
+        py_versions+=("2.7")
+        py_versions+=("3.7")
+        py_versions+=("3.8")
+        py_versions+=("3.9")
+        py_versions+=("3.10")
+        py_versions+=("3.11")
+        py_versions+=("3.12")
+        py_versions+=("3.13")
+    fi
 
-            echo "Building docker image. It could take some time..."
-            build_docker_image_and_run "$py_docker_image" "$package" "$dockerfile"
+    local py_packages=()
+    if [ -z "$TEST_LOCAL_PKG" ] || [ "$TEST_LOCAL_PKG" = "true" ]; then
+        py_packages+=("local")
+    fi
+    if [ -z "$TEST_PYPI_PKG" ] || [ "$TEST_PYPI_PKG" = "true" ]; then
+        py_packages+=("editorconfig-checker")
+    fi
 
-            # docker image rm "$docker_image" &> /dev/null
-
+    for py_version in "${py_versions[@]}"; do
+        for package in "${py_packages[@]}"; do
+            echo "Building docker image with Python version $py_version and $package package. It could take some time..."
+            build_docker_image_and_run "$py_version-slim" "$package"
             echo -e "\n"
         done
     done

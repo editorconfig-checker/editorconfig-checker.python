@@ -1,0 +1,56 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  test-architectures:
+    name: test OS/arch combinations
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - 'ubuntu-24.04'
+          - 'ubuntu-24.04-arm'
+          - 'macos-13' # the last intel mac
+          - 'macos-15' # arm64 mac
+          - 'windows-2025'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install local package
+        run: |
+          python -m pip install .
+
+      - name: test that editorconfig-checker works by letting it output it's version
+        run: |
+          ec --version
+
+  test-python-versions:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install flake8
+        run: |
+          python -m pip install flake8
+
+      - name: run testsuite verifying against all python versions
+        shell: bash
+        run: |
+          # Only test the local package, since we assume that we only
+          # upload to PyPI once we are certain that the local package is fine.
+          export TEST_LOCAL_PKG=true
+          export TEST_PYPI_PKG=false
+
+          # The same commands are defined in the `Makefile` and used for local development.
+          # We added them here to simplify the building process of the Docker
+          # image that points to `python:2.7-slim`.
+          # For such image, `apt-get` was not working as expected.
+          flake8 --ignore E501 setup.py
+          bash run-tests.sh
