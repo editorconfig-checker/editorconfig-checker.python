@@ -56,6 +56,9 @@ def get_tarball_url():
         else:
             raise ValueError('Cannot determine architecture')
 
+        if _system == 'Darwin':
+            _architecture = 'all'
+
         # The core, from `2.7.0`, introduces the extension in the tarball name
         # (e.g. `ec-windows-386.exe.tar.gz`, `ec-windows-arm.exe.tar.gz`)
         # In `3.1.0` the windows extension was then again dropped from the
