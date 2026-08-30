@@ -16,7 +16,7 @@ jobs:
         os:
           - 'ubuntu-24.04'
           - 'ubuntu-24.04-arm'
-          - 'macos-13' # the last intel mac
+          - 'macos-15-intel'
           - 'macos-15' # arm64 mac
           - 'windows-2025'
     runs-on: ${{ matrix.os }}
