@@ -21,7 +21,7 @@ jobs:
           - 'windows-2025'
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: install local package
         run: |
@@ -34,7 +34,7 @@ jobs:
   test-python-versions:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: install flake8
         run: |
