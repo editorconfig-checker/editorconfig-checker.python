@@ -16,12 +16,12 @@ jobs:
         os:
           - 'ubuntu-24.04'
           - 'ubuntu-24.04-arm'
-          - 'macos-13' # the last intel mac
+          - 'macos-15-intel'
           - 'macos-15' # arm64 mac
           - 'windows-2025'
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: install local package
         run: |
@@ -29,12 +29,12 @@ jobs:
 
       - name: test that editorconfig-checker works by letting it output it's version
         run: |
-          ec --version
+          editorconfig-checker --version
 
   test-python-versions:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: install flake8
         run: |

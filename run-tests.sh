@@ -22,7 +22,7 @@ build_docker_image_and_run() {
         --build-arg "PACKAGE=$docker_package" \
         .
 
-    docker run --rm "$docker_image" ec -version
+    docker run --rm "$docker_image" editorconfig-checker -version
 }
 
 main() {

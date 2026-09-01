@@ -8,7 +8,7 @@ FROM python:$IMAGE AS pybase
 RUN python -m pip install --upgrade pip
 
 # separate the obtaining of the requirements from the actual test, so we can use build caching for the first step
-FROM pybase as tester
+FROM pybase AS tester
 LABEL maintainer="Marco M. (mmicu) <mmicu.github00@gmail.com>"
 
 COPY . /app
